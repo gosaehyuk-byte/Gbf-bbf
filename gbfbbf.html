@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kinsy GBF/BBF ang match for u? 💖</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    color: #333;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+h2 {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+    font-size: 1.8em;
+}
+
+.progress {
+    height: 8px;
+    background: #e0e0e0;
+    margin: 20px 0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.bar {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    width: 0%;
+    transition: width 0.3s ease;
+    border-radius: 4px;
+}
+
+#counter {
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+#question {
+    font-size: 1.3em;
+    margin-bottom: 25px;
+    color: #444;
+    line-height: 1.4;
+}
+
+.option {
+    background: linear-gradient(135deg, #f8f9ff, #e8ecff);
+    padding: 15px;
+    margin: 8px 0;
+    cursor: pointer;
+    border-radius: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.5s;
+}
+
+.option:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    border-color: #667eea;
+}
+
+.option:hover::before {
+    left: 100%;
+}
+
+.option.selected {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-color: #5a67d8;
+}
+
+#result {
+    padding: 20px;
+}
+
+#result h2 {
+    background: linear-gradient(135deg, #ff6b9d, #c44569);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 2em;
+    margin-bottom: 15px;
+}
+
+.match-desc {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+    border-left: 5px solid #667eea;
+}
+
+.explanation {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+    text-align: left;
+    font-size: 0.95em;
+    line-height: 1.6;
+}
+
+.explanation h4 {
+    color: #667eea;
+    margin-top: 0;
+    font-size: 1.1em;
+}
+
+.btn-restart {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+}
+
+.btn-restart:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+
+@media (max-width: 480px) {
+    .container {
+        margin: 20px;
+        padding: 20px;
+    }
+    
+    h2 {
+        font-size: 1.5em;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+    <h2>GBF/BBF Emotional Match Quiz 💖</h2>
+    
+    <div class="progress">
+        <div class="bar" id="bar"></div>
+    </div>
+
+    <p id="counter"></p>
+    <h3 id="question"></h3>
+
+    <div id="options"></div>
+
+    <div id="result" style="display:none;">
+        <h2 id="matchName"></h2>
+        <div class="match-desc">
+            <p id="matchDesc"></p>
+        </div>
+        <div id="explanation"></div>
+        <button class="btn-restart" onclick="restartQuiz()">Take Quiz Again 💫</button>
+    </div>
+</div>
+
+<script>
+const characters = {
+    jezil: {
+        name: "Jezil", 
+        desc: "Your intellectual soulmate who balances productivity with humor ng Barangay 36",
+        emotionalTraits: "Driven, witty, reliable, thoughtful",
+        explanation: "You matched with Jezil because you value productivity, problem-solving, and making others laugh. Your responsible nature and intelligence resonate with his hardworking yet fun personality. Together, you'll build a relationship filled with meaningful achievements and lighthearted moments."
+    },
+    jedy: {
+        name: "Jedy", 
+        desc: "Your deep conversational partner who truly listens ng Calaanan",
+        emotionalTraits: "Empathetic, humorous, introspective",
+        explanation: "Jedy is your match because you cherish deep conversations, listening to others, and finding humor in life. Your emotional depth and ability to connect on a profound level make you perfect partners who can laugh together while exploring life's big questions."
+    },
+    carl: {
+        name: "Carl", 
+        desc: "Your outgoing  twink partner who brings genuine energy",
+        emotionalTraits: "Authentic, resilient, responsible",
+        explanation: "Carl matches your outgoing nature and genuine spirit. You both thrive on challenges and value authenticity. Your shared sense of responsibility creates a strong foundation for a relationship filled with adventure and real connection."
+    },
+    angel: {
+        name: "Angel", 
+        desc: "Your artistic kindred spirit who values kindness a.k.a mushroom",
+        emotionalTraits: "Creative, compassionate, joyful",
+        explanation: "Angel connects with your artistic soul and caring heart. You both prioritize feelings, creativity, and making others happy. This match promises a relationship rich in emotional support, artistic expression, and gentle understanding."
+    },
+    mae: {
+        name: "Mae", 
+        desc: "Your cheerful halin:0 companion who radiates warmth",
+        emotionalTraits: "Nurturing, family-oriented, uplifting",
+        explanation: "Mae matches your caring, cheerful nature and family values. You both find joy in making others happy and creating positive environments. Your relationship will be filled with warmth, laughter, and unwavering support for each other's dreams."
+    },
+    nicole: {
+        name: "Nicole", 
+        desc: "Your independent kawaii daisuke partner with a nurturing heart",
+        emotionalTraits: "Self-reliant, empathetic, helpful",
+        explanation: "Nicole resonates with your independence and nurturing qualities. You both value emotional intelligence and helping others while maintaining your individuality. This creates a balanced partnership where you support each other's growth."
+    },
+    jasfer: {
+        name: "Jasfer", 
+        desc: "Your cozy gamer twink partner who loves you to shut up",
+        emotionalTraits: "Reflective, playful, loyal",
+        explanation: "Jasfer matches your love for gaming, alone time, and low-pressure environments. You both appreciate quiet connection and shared interests. Your relationship will thrive on comfortable silences, gaming marathons, and mutual understanding."
+    },
+    tristan: {
+        name: "Tristan", 
+        desc: "Your strong femboy thinker who matches your depth",
+        emotionalTraits: "Determined, philosophical, authentic",
+        explanation: "Tristan connects with your strong opinions, love for deep talks, and introspective nature. You both value authenticity and intellectual stimulation. This match promises profound conversations, mutual respect, and emotional strength."
+    }
+};
+
+const questions = [
+    "I love being productive and achieving goals",
+    "I enjoy physical activities and staying active",
+    "I naturally make people laugh",
+    "I prefer solving problems on my own",
+    "I love listening to my friends' problems",
+    "I get easily distracted from tasks",
+    "I find joy in creating art or music",
+    "I deeply care about others' feelings",
+    "I love cooking for myself and others",
+    "I enjoy spending time alone",
+    "I tend to panic in stressful situations",
+    "I have strong, well-defined opinions",
+    "I often procrastinate on important tasks",
+    "I love playing video games",
+    "I take my responsibilities seriously",
+    "Making people happy is important to me",
+    "I consider myself intelligent and analytical",
+    "I can be serious when needed but also fun",
+    "I crave deep, meaningful conversations",
+    "I love facing challenges head-on",
+    "I value my independence highly",
+    "I enjoy being the center of attention",
+    "Family means everything to me",
+    "I'm comfortable with technology",
+    "Humor is a big part of who I am",
+    "I tend to overthink situations",
+    "Loyalty is non-negotiable for me",
+    "I'm naturally creative",
+    "I strive for balance in my life",
+    "Helping others brings me joy",
+    "I have big dreams and ambitions"
+];
+
+const traitMapping = {
+    jezil: [0,1,2,3,16,14,17,29],    // productive, active, funny, independent, responsible, smart, serious/fun, dreams
+    jedy: [2,4,18,24,25,30],         // funny, listener, deep talks, funny, overthink, dreams
+    carl: [5,19,21,3,16],            // outgoing(active), challenges, family, independent, responsible
+    angel: [6,7,27,15,29],           // art, feelings, creative, happy, balance
+    mae: [15,24,21,26,29],           // happy, funny, family, loyal, balance
+    nicole: [8,7,20,3,29],           // cooking(caring), feelings, independent, independent, balance
+    jasfer: [10,13,23,9,24],         // distracted(intro), games, techy, alone, funny
+    tristan: [11,12,18,9,25]         // opinions, NOT procrastinate(strong), deep talks, alone, overthink
+};
+
+let index = 0;
+let scores = {};
+
+function loadQuestion() {
+    if (index >= questions.length) {
+        showResult();
+        return;
+    }
+
+    document.getElementById("question").innerText = questions[index];
+    document.getElementById("counter").innerText = 
+        `Question ${index + 1} of ${questions.length}`;
+
+    let percent = (index / questions.length) * 100;
+    document.getElementById("bar").style.width = percent + "%";
+
+    let optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML = "";
+
+    ["💖 Strongly Agree", "🤔 Neutral", "❌ Disagree"].forEach((text, i) => {
+        let btn = document.createElement("div");
+        btn.className = "option";
+        btn.innerHTML = `<span>${text}</span>`;
+        btn.onclick = () => answer(i);
+        optionsDiv.appendChild(btn);
+    });
+}
+
+function answer(choice) {
+    // Clear previous selections
+    document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+    
+    // Highlight selected option
+    event.target.classList.add('selected');
+    
+    let value = choice == 0 ? 2 : choice == 1 ? 1 : 0;
+    
+    for (let char in traitMapping) {
+        if (traitMapping[char].includes(index)) {
+            scores[char] = (scores[char] || 0) + value;
+        }
+    }
+
+    setTimeout(() => {
+        index++;
+        loadQuestion();
+    }, 200);
+}
+
+function showResult() {
+    document.getElementById("question").style.display = "none";
+    document.getElementById("options").style.display = "none";
+    document.getElementById("counter").style.display = "none";
+    document.getElementById("bar").style.width = "100%";
+
+    let best = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+    let result = characters[best];
+
+    document.getElementById("matchName").innerText = `Your Perfect Match: ${result.name} 💕`;
+    document.getElementById("matchDesc").innerHTML = 
+        `<strong>Emotional Traits:</strong> ${result.emotionalTraits}<br><br>
+         ${result.desc}`;
+    document.getElementById("explanation").innerHTML = 
+        `<div class="explanation">
+            <h4>💭 Why You're Perfect Together:</h4>
+            <p>${result.explanation}</p>
+        </div>`;
+
+    document.getElementById("result").style.display = "block";
+}
+
+function restartQuiz() {
+    index = 0;
+    scores = {};
+    document.getElementById("result").style.display = "none";
+    document.getElementById("question").style.display = "block";
+    document.getElementById("options").style.display = "block";
+    document.getElementById("counter").style.display = "block";
+    document.getElementById("bar").style.width = "0%";
+    loadQuestion();
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
